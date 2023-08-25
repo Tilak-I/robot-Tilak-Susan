@@ -13,7 +13,8 @@ import frc.robot.Constants.IntakeMotor;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 public class Intake extends SubsystemBase {
-  
+
+  final Compressor pcmCompressor;
   final DoubleSolenoid solenoid1;
   final DoubleSolenoid solenoid2;
   final WPI_TalonSRX intakeMotor;
@@ -23,7 +24,8 @@ public class Intake extends SubsystemBase {
     solenoid1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0,1);
     solenoid2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2,3);
     intakeMotor = new WPI_TalonSRX(IntakeMotor.kIntakeMotorPort);
-  
+    cpcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+
 
    }
    
