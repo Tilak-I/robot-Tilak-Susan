@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 public class Intake extends SubsystemBase {
-  
+
+  final Compressor pcmCompressor;
   final DoubleSolenoid solenoid1;
   final DoubleSolenoid solenoid2;
   final WPI_TalonSRX intakeMotor;
-  final Compressor pcmCompressor;
 
   /** Creates a new Intake. */
   public Intake()
@@ -40,6 +40,12 @@ public class Intake extends SubsystemBase {
    {
     intakeMotor.set(ControlMode.PercentOutput, 0);
     intakeMotor.disable();
+
+    intakeMotor = new WPI_TalonSRX(16);
+    pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+
+
+>>>>>>> e6024e71202207bafecfba79d73683b120d5a594
    }
    public void SolenoidExtend()
    {
