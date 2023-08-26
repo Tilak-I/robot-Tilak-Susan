@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -43,11 +44,16 @@ public class RobotContainer {
     driveController = new XboxController(0);
     mIntake = new Intake();
     mDrive = new Drivebase();
-    mDrive.setDefaultCommand(new InstantCommand(() -> mDrive.defaultDrive(() -> driveController.getLeftY(), () -> driveController.getRightX())));
+    mDrive.setDefaultCommand(new DefaultDrive(
+      () -> driveController.getLeftY(),
+      () -> driveController.getRightX(),
+      mDrive
+    ));
     // Configure the trigger bindings
     configureBindings();  
-  }
 
+  }
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary

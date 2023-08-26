@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -21,9 +20,9 @@ public class Drivebase extends SubsystemBase {
   /** Creates a new Drivebase. */
   public Drivebase() {
     backLeft = new WPI_TalonSRX(0);
-    backRight = new WPI_TalonSRX(0);
-    frontLeft = new WPI_TalonSRX(0);
-    frontRight = new WPI_TalonSRX(0);
+    backRight = new WPI_TalonSRX(1);
+    frontLeft = new WPI_TalonSRX(2);
+    frontRight = new WPI_TalonSRX(3);
     
 
     MotorControllerGroup LeftControlGroup = new MotorControllerGroup(frontLeft, backLeft);
@@ -37,10 +36,12 @@ public class Drivebase extends SubsystemBase {
 
   }
 
-  public void defaultDrive(DoubleSupplier speed, DoubleSupplier rotation)
+  public Runnable defaultDrive(double speed, double rotation)
   {
-    mRobotDrive.arcadeDrive(-speed.getAsDouble(), -rotation.getAsDouble());
+    mRobotDrive.arcadeDrive(speed, rotation);
+    return null;
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
