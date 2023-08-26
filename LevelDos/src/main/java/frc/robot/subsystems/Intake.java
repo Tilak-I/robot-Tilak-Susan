@@ -30,20 +30,11 @@ public class Intake extends SubsystemBase {
    }
    public void startRollerIntake()
    { 
-    if (pcmCompressor.isEnabled())
-    {
-      intakeMotor.set(ControlMode.PercentOutput, 1);
-    }
-    //else{pcmCompressor.enable()} Enable it once Ik what the method is
+    intakeMotor.set(ControlMode.PercentOutput, 1);
    }
    public void endRollerIntake()
    {
     intakeMotor.set(ControlMode.PercentOutput, 0);
-    intakeMotor.disable();
-
-
-
-
    }
    public void SolenoidExtend()
    {
