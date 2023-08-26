@@ -17,8 +17,4 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class IntakeMotor {
-    public final static double kIntakespeed = 1;
-    public final static int kIntakeMotorPort = 16; //go blink motors later;
-  }
 }
