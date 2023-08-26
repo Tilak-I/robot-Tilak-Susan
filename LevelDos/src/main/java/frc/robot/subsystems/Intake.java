@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
@@ -52,6 +53,20 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Boolean intakeVal;
+    if (solenoid1.get() == kReverse) 
+    {
+     intakeVal = false;
+    }
+    else if (solenoid1.get() == kForward) 
+    {
+     intakeVal = true;
+    }
+    else 
+    {
+     intakeVal = false;
+    }
+    SmartDashboard.putBoolean("Intake Position: ", intakeVal);
     // This method will be called once per scheduler run
   }
 }
