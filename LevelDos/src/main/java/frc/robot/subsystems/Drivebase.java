@@ -36,10 +36,9 @@ public class Drivebase extends SubsystemBase {
 
   }
 
-  public Runnable defaultDrive(double speed, double rotation)
+  public void defaultDrive(double speed, double rotation)
   {
     mRobotDrive.arcadeDrive(speed, rotation);
-    return null;
   }
 
   @Override
