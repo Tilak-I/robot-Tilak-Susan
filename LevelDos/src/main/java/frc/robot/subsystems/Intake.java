@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
     pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     
    }
-   public void startRollerIntake()
+   public void startRollerIntake()  
    { 
     intakeMotor.set(ControlMode.PercentOutput, 1);
    }
@@ -67,6 +67,6 @@ public class Intake extends SubsystemBase {
      intakeVal = false;
     }
     SmartDashboard.putBoolean("Intake Position: ", intakeVal);
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler 
   }
 }

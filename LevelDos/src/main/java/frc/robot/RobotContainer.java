@@ -9,6 +9,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Primer;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +25,8 @@ import frc.robot.subsystems.Intake;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  
+  private boolean runHopper;
+  private Primer mPrimer;
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivebase mDrive;
@@ -40,7 +42,8 @@ public class RobotContainer {
     
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
+    mPrimer = new Primer();
+    runHopper = true;
     driveController = new XboxController(0);
     mIntake = new Intake();
     mDrive = new Drivebase();
@@ -64,17 +67,44 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
-    
+    m_driverController.x().onTrue(new InstantCommand(() -> mPrimer.ShooterIntake()));
+    m_driverController.x().onFalse(new InstantCommand(() -> mPrimer.endCargo()));
+
+    m_driverController.a().onTrue(new InstantCommand(() -> 
+    {
+      if(runHopper)
+      {
+        runHopper = false;
+        mPrimer.startHopper();
+      }
+      else 
+      {
+        runHopper = true;
+        mPrimer.endHopper();
+      }
+    }));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_driverController.rightBumper().whileTrue(new InstantCommand(mIntake::SolenoidExtend,mIntake));
+    m_driverController.rightBumper().whileTrue(new InstantCommand(() -> {
+      mPrimer.startHopper();
+      mIntake.SolenoidExtend();
+    }));
+    m_driverController.leftBumper().whileTrue(new InstantCommand(() -> {
+      mPrimer.endHopper();
+      mIntake.SolenoidRetract();
+    }));
     m_driverController.leftBumper().whileTrue(new InstantCommand(mIntake::SolenoidRetract,mIntake));
 
+    m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> {if(runHopper) {mPrimer.startHopper();}}));
+    m_driverController.leftTrigger().onFalse(new InstantCommand(() -> mPrimer.endHopper()));
+    m_driverController.rightTrigger().whileTrue(new InstantCommand(() -> {if(runHopper) {mPrimer.reverseHopper();}}));
+    m_driverController.rightTrigger().onFalse(new InstantCommand(() -> mPrimer.endHopper()));
   }
 
   /**
